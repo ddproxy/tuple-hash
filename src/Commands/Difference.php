@@ -61,6 +61,14 @@ class Difference extends Command
         } catch (\Exception $exception) {
             $output->write("Exception caught: " . $exception->getMessage() . "\n");
         }
+
+        //$output->write("Memory Usage " . $this->convert(memory_get_usage()));
+    }
+
+    public function convert($size)
+    {
+        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
     }
 
     public function getLines(SplFileObject $file)
