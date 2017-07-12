@@ -28,6 +28,7 @@ class IndexFile
             $bloomFilter->set(strtolower($line));
         }
         file_put_contents($bloomFile, serialize($bloomFilter));
+        touch($fileName);
     }
 
     static function getLines(SplFileObject $file)
@@ -36,6 +37,17 @@ class IndexFile
         $lines = $file->key() + 1;
         $file->rewind();
         return $lines;
+    }
+
+    /**
+     * Returns true for good filter
+     *
+     * @param $fileName
+     * @return bool
+     */
+    static function checkIntegrity($fileName)
+    {
+        return (filemtime($fileName) === filemtime($fileName . '.filter'));
     }
 
 }

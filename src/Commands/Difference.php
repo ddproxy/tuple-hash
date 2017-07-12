@@ -30,7 +30,7 @@ class Difference extends Command
             $differenceFiles = explode(',', $input->getArgument('difference-files'));
 
             foreach ($differenceFiles as $file) {
-                if(!file_exists($file . '.filter')) {
+                if (!file_exists($file . '.filter') || !IndexFile::checkIntegrity($file)) {
                     IndexFile::buildIndex($file);
                 }
             }
